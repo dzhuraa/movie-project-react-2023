@@ -1,4 +1,4 @@
-const baseURL = 'https://api.themoviedb.org';
+const baseURL = 'https://api.themoviedb.org/3/';
 
 export{
     baseURL

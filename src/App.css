@@ -1,11 +1,29 @@
 .header{
-    height: 70px;
+    height: 75px;
     display: flex;
     justify-content: space-evenly;
+    align-items: center;
+    border-bottom: 1px solid black;
 }
-#light .header{
-    background-color: silver;
+.header a{
+    text-decoration: none;
+    color: gray;
+    font-size: 25px;
+    font-weight: bold;
 }
-#dark .header{
-    background-color: black;
+.header a[class='active']{
+    color: black;
+}
+/*#light.header{*/
+/*    background-color: #fff;*/
+/*}*/
+#dark.header{
+    background-color: #464646;
+}
+#dark.header a{
+    color: #cecece;
+    font-weight: bold;
+}
+#dark.header a[class='active']{
+    color: #fff;
 }
