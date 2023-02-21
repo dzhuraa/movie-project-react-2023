@@ -1,16 +1,19 @@
-// import React, {useEffect, useState} from 'react';
-// import {axiosService} from "../../services";
-// import {MoviesListCard} from "../MoviesListCard/MoviesListCard";
+import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
+import {movieService} from "../../services";
+import {movieActions} from "../../redux";
+import {MoviesListCard} from "../MoviesListCard/MoviesListCard";
 
 const MoviesList = () => {
-    // const [movies, setMovies] = useState([]);
+    const dispatch = useDispatch();
+    const {movies} = useSelector(state => state.movies);
 
-    // useEffect(() => {
-    //     axiosService.get('/discover').then(({data})=>setMovies([...data]))
-    // }, [])
+    useEffect(() => {
+        movieService.getAll().then(({data}) => dispatch(movieActions.getAll(data)))
+    }, []);
     return (
         <div>
-            {/*{movies.map(movie=><MoviesListCard key={movie.id} movie={movie}/>)}*/}
+            {movies.map(movie=><MoviesListCard key={movie.id} movie={movie}/>)}
         </div>
     );
 };
