@@ -1,0 +1,11 @@
+.header{
+    height: 70px;
+    display: flex;
+    justify-content: space-evenly;
+}
+#light .header{
+    background-color: silver;
+}
+#dark .header{
+    background-color: black;
+}
