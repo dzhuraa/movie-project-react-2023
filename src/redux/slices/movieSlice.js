@@ -1,4 +1,5 @@
-import {createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {movieService} from "../../services";
 
 const initialState={
     movies: [],
@@ -8,17 +9,64 @@ const initialState={
     loading: null
 }
 
+const getAll = createAsyncThunk(
+    'movieSlice/getAll',
+    async ({page}, thunkAPI) => {
+        try {
+            const {data} = await movieService.getAll(page);
+            return data;
+        } catch (e) {
+            return thunkAPI.rejectWithValue(e.response.data)
+        }
+    }
+);
+const create = createAsyncThunk(
+    'movieSlice/create',
+    async ({movie}, thunkAPI) => {
+        try{
+            await movieService.create(movie);
+            thunkAPI.dispatch(getAll({page: 1}));
+        }catch (e) {
+            return thunkAPI.rejectWithValue((e.response.data));
+        }
+    }
+)
+// const deleteById = createAsyncThunk(
+//     'movieSlice/deleteById',
+//     async ({id}, thunkAPI) => {
+//         try {
+//             await movieService.deleteById(id)
+//             thunkAPI.dispatch(getAll())
+//         } catch (e) {
+//             return thunkAPI.rejectWithValue(e.response.data)
+//         }
+//     }
+// )
+//
+// const updateById = createAsyncThunk(
+//     'carSlice/updateById',
+//     async ({id, car}, thunkAPI) => {
+//         try {
+//             await carService.updateById(id, car);
+//             thunkAPI.dispatch(getAll())
+//         } catch (e) {
+//             return thunkAPI.rejectWithValue(e.response.data)
+//
+//         }
+//     }
+// )
+
 const movieSlice = createSlice({
     name: 'movieSlice',
     initialState,
     reducers: {
-        getAll: (state, action) => {
-            state.users = action.payload
+        setMovieForUpdate: (state, action) => {
+            state.movieForUpdate = action.payload
         }
     },
     extraReducers: builder =>
         builder
-            .addCase(getAll, (state, action) => {
+            .addCase(getAll.fulfilled, (state, action) => {
                 const {prev, next, items} = action.payload;
                 state.cars = items
                 state.prev = prev
@@ -31,13 +79,15 @@ const movieSlice = createSlice({
             })
 });
 
-const {reducer: movieReducer, actions: {getAll}} = movieSlice;
+const {reducer: movieReducer, actions: {setMovieForUpdate}} = movieSlice;
 
 const movieActions = {
-    getAll
+    getAll,
+    create,
+    setMovieForUpdate
 }
 
 export {
-    movieActions,
-    movieReducer
+    movieReducer,
+    movieActions
 };

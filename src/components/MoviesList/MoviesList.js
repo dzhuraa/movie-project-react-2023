@@ -12,6 +12,7 @@ const MoviesList = () => {
     useEffect(() => {
         dispatch(movieActions.getAll({page: query.get('page')}))
     }, [dispatch, query]);
+    console.log(movies);
     return (
         <div>
             <div>

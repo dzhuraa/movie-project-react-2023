@@ -2,8 +2,8 @@ import {axiosService} from "./axiosService";
 import {urls} from "../configs";
 
 const movieService = {
-    getAll:()=>axiosService.get(urls.movies),
-    getById:(id)=>axiosService.get(`${urls.movies}/${id}`)
+    getAll: (page = 1) => axiosService.get(urls.movies, {params: {page}}),
+    create: (data) => axiosService.post(urls.movies, data)
 }
 
 export{
