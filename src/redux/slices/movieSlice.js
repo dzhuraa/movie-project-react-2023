@@ -20,17 +20,28 @@ const getAll = createAsyncThunk(
         }
     }
 );
-const create = createAsyncThunk(
-    'movieSlice/create',
-    async ({movie}, thunkAPI) => {
-        try{
-            await movieService.create(movie);
-            thunkAPI.dispatch(getAll({page: 1}));
-        }catch (e) {
-            return thunkAPI.rejectWithValue((e.response.data));
-        }
-    }
-)
+// const getAll = createAsyncThunk(
+//     'movieSlice/getAll',
+//     async ({page}, thunkAPI) => {
+//         try {
+//             const {data:{results}} = await movieService.getAll(page);
+//             return results;
+//         } catch (e) {
+//             return thunkAPI.rejectWithValue(e.response.data)
+//         }
+//     }
+// );
+// const create = createAsyncThunk(
+//     'movieSlice/create',
+//     async ({movie}, thunkAPI) => {
+//         try{
+//             await movieService.create(movie);
+//             thunkAPI.dispatch(getAll({page: 1}));
+//         }catch (e) {
+//             return thunkAPI.rejectWithValue((e.response.data));
+//         }
+//     }
+// )
 // const deleteById = createAsyncThunk(
 //     'movieSlice/deleteById',
 //     async ({id}, thunkAPI) => {
@@ -44,14 +55,13 @@ const create = createAsyncThunk(
 // )
 //
 // const updateById = createAsyncThunk(
-//     'carSlice/updateById',
-//     async ({id, car}, thunkAPI) => {
+//     'movieSlice/updateById',
+//     async ({id, movie}, thunkAPI) => {
 //         try {
-//             await carService.updateById(id, car);
+//             await movieService.updateById(id, movie);
 //             thunkAPI.dispatch(getAll())
 //         } catch (e) {
 //             return thunkAPI.rejectWithValue(e.response.data)
-//
 //         }
 //     }
 // )
@@ -68,7 +78,7 @@ const movieSlice = createSlice({
         builder
             .addCase(getAll.fulfilled, (state, action) => {
                 const {prev, next, items} = action.payload;
-                state.cars = items
+                state.movies = items
                 state.prev = prev
                 state.next = next
                 state.loading = false
@@ -81,9 +91,12 @@ const movieSlice = createSlice({
 
 const {reducer: movieReducer, actions: {setMovieForUpdate}} = movieSlice;
 
+
 const movieActions = {
     getAll,
-    create,
+    // create,
+    // deleteById,
+    // updateById,
     setMovieForUpdate
 }
 
